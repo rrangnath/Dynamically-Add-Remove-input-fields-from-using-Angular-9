@@ -1,0 +1,80 @@
+<div class="container"><br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <form #createUser="ngForm" (ngSubmit)="saveUser()">
+                <div class="card">
+                    <div class="card-header bg-info text-white" >
+                      <strong>Dynamically Add & Remove input fields from using Angular 9 </strong>
+                    </div>
+          
+                    <div class="card-body" >
+
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" [(ngModel)]="user.name" #name="ngModel"  class="form-control"
+                            [class.is-invalid]="name.invalid && name.touched" placeholder="Enter Name" required />
+                            <span class="text-danger" *ngIf="name.invalid && name.touched">Name is required</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emaiId">Email</label>
+                            <input type="text" id="emaiId" name="emaiId" [(ngModel)]="user.emaiId" pattern="(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+                            [class.is-invalid]="emaiId.invalid && emaiId.touched" #emaiId="ngModel" class="form-control" placeholder="Enter Email" required />
+                            
+                            <div *ngIf="emaiId.invalid && emaiId.touched">
+                                <span class="text-danger" *ngIf="emaiId.errors?.required">Email is required</span>
+                                <span class="text-danger" *ngIf="emaiId.errors?.pattern">Email is required</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobile">Mobile</label>
+                            <input type="text" pattern="^\d{10}$" [class.is-invalid]="mobile.invalid && mobile.touched" id="mobile" name="mobile"
+                             [(ngModel)]="user.mobile" #mobile="ngModel" class="form-control" placeholder="Enter Mobile No." required />
+                            
+                             <div *ngIf="mobile.invalid && mobile.touched">
+                                <span class="text-danger" *ngIf="mobile.errors?.required">Mobile No. is required</span>
+                                <span class="text-danger" *ngIf="mobile.errors?.pattern">Invalid Mobile No.</span>
+                            </div>
+                        </div>
+         
+
+                        <div class="form-group">
+                            <label for="education">Education</label>
+                            <input type="text" id="education" [class.is-invalid]="education.invalid && education.touched" name="education" 
+                            [(ngModel)]="user.education" #education="ngModel" class="form-control" placeholder="Enter Education" required />
+                            <span class="text-danger" *ngIf="education.invalid && education.touched">Name is required</span>
+                        </div>
+
+                        <div class="form-row" *ngFor="let mem of user.job; let i = index">
+                            <div class="col mb-3">
+                                <label [attr.for]="'companyname' + i">Company Name <small class="text-danger">{{i + 1}}</small> </label>
+                                <input type="text"   class="form-control" [id]="'companyname' + i" name="{{'companyname' + i}}" 
+                                [(ngModel)]="user.job[i].companyname" #companyname="ngModel" placeholder="Enter Company Name" required />
+                                <span class="text-danger" *ngIf="companyname.invalid && companyname.touched">Name is required</span>
+                            </div>
+                            <div class="col mb-3">
+                                <label [attr.for]="'designation' + i" >Designation <small class="text-danger">{{i + 1}}</small></label>
+                                <input type="text"  class="form-control"  [id]="'designation' + i" name="{{'designation' + i}}"
+                                [(ngModel)]="user.job[i].designation" #designation="ngModel" placeholder="Enter Designation" required />
+                                <span class="text-danger" *ngIf="designation.invalid && designation.touched">Name is required</span>
+                            </div>
+                            <div class="col-md-1" *ngIf="i != 0">
+                                <label class="invisible">Button</label><br />
+                               <button type="button" class="btn btn-sm btn-danger" (click)="removeItem(i)">X</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary mt-3 float-right btn-sm" (click)="addMore();">Add More</button>
+                      
+                    </div>
+
+                    <div class="card-footer bg-default text-white" >
+                        <button [disabled]="createUser.invalid" type="submit" class="btn btn-info btn-sm">Save</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+ </div>
